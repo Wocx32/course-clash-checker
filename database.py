@@ -1,7 +1,5 @@
 import pickle
 import datetime
-import pprint
-from venv import create
 from bs4 import BeautifulSoup
 from scrape import get_source
 
@@ -124,4 +122,6 @@ def create_database(term):
         pickle.dump(data, file)
 
 if __name__ == '__main__':
+    print('Creating database...')
     create_database('2022FA')
+    print('Database created!')

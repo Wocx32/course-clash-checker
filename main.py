@@ -1,20 +1,23 @@
 import pickle
-from openpyxl import Workbook
-from openpyxl.utils.cell import get_column_letter
 
-with open('course-data.pickle', 'rb') as file:
-    data = pickle.load(file)
+try:
+    with open('course-data.pickle', 'rb') as file:
+        data = pickle.load(file)
+except:
+    from database import create_database
 
-# for i in data:
-#     if 'BIOL 100 B' in i['name']:
-#         print(i)
+    print('Creating database please wait... (This may take a minute or two)')
+
+    create_database('2022FA')
+    with open('course-data.pickle', 'rb') as file:
+        data = pickle.load(file)
 
 input_courses = input('Enter courses: ').split(',')
 input_courses = [x.strip().upper() for x in input_courses]
 
 courses = []
 
-# print(input_courses)
+
 
 for i in data:
     if i['name'] in input_courses:
@@ -24,10 +27,7 @@ for i in data:
             continue
         courses.append(i)
 
-# print(courses)
 
-# print(courses[0])
-# check if there is clash between timings of each course
 def check_clash(course1, course2):
     course1_days = ''.join(course1['days'])
     course2_days = ''.join(course2['days'])
@@ -52,24 +52,5 @@ for i in courses:
             
             if not track_detected:
                 detected.append((i['name'], j['name']))
-                print(i['name'], 'clashes with',j['name'])
-
-def create_spreadsheet():
-    workbook = Workbook()
-    sheet = workbook.active
-
-    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-
-    # set every column width to 40 px
-    # set every row height to 20 px
-    for i in range(1, 6):
-        sheet.column_dimensions[get_column_letter(i)].width = 40
-        sheet.row_dimensions[i].height = 23
-
-
-    sheet['B1'] = 'hllo'
-    # sheet['B1'] = 'world'
-
-    workbook.save('test.xlsx')
-
-# create_spreadsheet()
+                print(i['name'], 'clashes with', j['name'])
+            track_detected = False
