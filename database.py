@@ -9,7 +9,7 @@ url = 'https://empower.fccollege.edu.pk/fusebox.cfm?fuseaction=CourseCatalog'
 
 def get_page_source(term):
     source = get_source(url, term)
-    soup = BeautifulSoup(source, 'html.parser')
+    soup = BeautifulSoup(source, 'lxml')
 
     return soup.find('div', id='courses')
 

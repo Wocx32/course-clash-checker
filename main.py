@@ -9,6 +9,9 @@ except:
     print('Creating database please wait... (This may take a minute or two)')
 
     create_database('2022FA')
+
+    print('Database created!')
+    
     with open('course-data.pickle', 'rb') as file:
         data = pickle.load(file)
 
